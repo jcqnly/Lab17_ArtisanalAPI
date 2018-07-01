@@ -9,7 +9,7 @@ using ToDoApi.Model;
 namespace ToDoApi.Controllers
 {
     /// <summary>
-    /// If the Db is empty, a new todo item will be added
+    /// sets the api route to api/todo
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -78,7 +78,7 @@ namespace ToDoApi.Controllers
         }
 
         /// <summary>
-        /// Similar to create, except the http request is a put
+        /// Updates the name of the item and if it's complete
         /// </summary>
         /// <param name="id"></param>
         /// <param name="item"></param>
@@ -113,12 +113,10 @@ namespace ToDoApi.Controllers
             {
                 return NotFound();
             }
-
+            //if the id is found, call the remove method on it
             _context.TodoItems.Remove(todo);
             _context.SaveChanges();
             return NoContent();
         }
-
-
     }
 }
