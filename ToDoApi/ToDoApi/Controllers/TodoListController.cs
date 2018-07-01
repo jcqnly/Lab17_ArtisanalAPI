@@ -12,7 +12,7 @@ namespace ToDoApi.Controllers
     /// sets the api route to api/todolist
     /// </summary>
     [Route("api/[controller]")]
-    public class TodoListController : Controller
+    public class TodoListController : ControllerBase
     {
         private readonly TodoContext _context;
         /// <summary>
@@ -22,12 +22,6 @@ namespace ToDoApi.Controllers
         public TodoListController(TodoContext context)
         {
             _context = context;
-
-            if (_context.TodoList.Count() == 0)
-            {
-                _context.TodoList.Add(new TodoList { Name = "List1" });
-                _context.SaveChanges();
-            }
         }
 
         /// <summary>
@@ -35,9 +29,9 @@ namespace ToDoApi.Controllers
         /// </summary>
         /// <returns>JSON list of the lists</returns>
         [HttpGet]
-        public IEnumerable<TodoList> GetAll()
+        public ActionResult<List<TodoList>> GetAll()
         {
-            return _context.TodoList;
+            return _context.TodoList.ToList();
         }
 
         /// <summary>
@@ -48,10 +42,16 @@ namespace ToDoApi.Controllers
         [HttpGet("{id}", Name = "GetTodoList")]
         public ActionResult<TodoList> GetById(long id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             //sets the list return from the Db as a var
-            var list = _context.TodoList.Find(id);
+            TodoList list = _context.TodoList.Find(id);
             //finds the list of todo items that matches the requested list id
-            var todoItem = _context.TodoItems.Where(x => x.ListId == id).ToList();
+            var todoItem = _context.TodoItems.Where(x => x.ListId == x.Id).ToList();
+            list.ItemList = todoItem;
             //if that item doesn't exist, a 404 will be called
             if (list == null)
             {
@@ -71,6 +71,11 @@ namespace ToDoApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]TodoList list)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.TodoList.Add(list);
             _context.SaveChanges();
             //returns a 201 for a successful post
@@ -90,6 +95,11 @@ namespace ToDoApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(long id, [FromBody] TodoList list)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             //gets the item, by its id, in order to update the info
             var todoList = _context.TodoList.Find(id);
             if (todoList == null)
@@ -98,6 +108,7 @@ namespace ToDoApi.Controllers
             }
 
             todoList.Name = list.Name;
+            todoList.ItemList = list.ItemList;  
 
             _context.TodoList.Update(todoList);
             _context.SaveChanges();
@@ -112,6 +123,11 @@ namespace ToDoApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var todoList = _context.TodoList.Find(id);
             if (todoList == null)
             {

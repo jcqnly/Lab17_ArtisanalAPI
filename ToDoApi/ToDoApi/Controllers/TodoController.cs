@@ -36,9 +36,9 @@ namespace ToDoApi.Controllers
         /// </summary>
         /// <returns>JSON list of the items</returns>
         [HttpGet]
-        public IEnumerable<TodoItem> GetAll()
+        public ActionResult<List<TodoItem>> GetAll()
         {
-            return _context.TodoItems;
+            return _context.TodoItems.ToList();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ToDoApi.Controllers
         /// <param name="id"></param>
         /// <returns>the requested item</returns>
         [HttpGet("{id}:long", Name = "GetTodo")]
-        public ActionResult<TodoItem> GetById([FromRoute]long id)
+        public ActionResult<TodoItem> GetById(long id)
         {
             //sets the item return from the Db as a var
             var item = _context.TodoItems.Find(id);
@@ -78,7 +78,7 @@ namespace ToDoApi.Controllers
         }
 
         /// <summary>
-        /// Updates the name of the item and if it's complete
+        /// Updates the item
         /// </summary>
         /// <param name="id"></param>
         /// <param name="item"></param>
@@ -94,10 +94,11 @@ namespace ToDoApi.Controllers
 
             todo.IsComplete = item.IsComplete;
             todo.Name = item.Name;
+            todo.ListId = item.ListId;
 
             _context.TodoItems.Update(todo);
             _context.SaveChanges();
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace ToDoApi.Controllers
             //if the id is found, call the remove method on it
             _context.TodoItems.Remove(todo);
             _context.SaveChanges();
-            return NoContent();
+            return Ok();
         }
     }
 }
