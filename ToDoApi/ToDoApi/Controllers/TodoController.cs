@@ -5,19 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApi.Model;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+//this is the controller class for the todo ITEMS
 namespace ToDoApi.Controllers
 {
     /// <summary>
-    /// If the Db is empty, a new todo item will be added
+    /// sets the api route to api/todo
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TodoController : ControllerBase
     {
         private readonly TodoContext _context;
-
+        /// <summary>
+        /// sets the connection to the Db
+        /// </summary>
+        /// <param name="context"></param>
         public TodoController(TodoContext context)
         {
             _context = context;
@@ -27,6 +29,94 @@ namespace ToDoApi.Controllers
                 _context.TodoItems.Add(new TodoItem { Name = "Item1" });
                 _context.SaveChanges();
             }
+        }
+
+        /// <summary>
+        /// Gets all the items and returns the data as a list
+        /// </summary>
+        /// <returns>JSON list of the items</returns>
+        [HttpGet]
+        public ActionResult<List<TodoItem>> GetAll()
+        {
+            return _context.TodoItems.ToList();
+        }
+
+        /// <summary>
+        /// Returns the item by the specific id requested
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>the requested item</returns>
+        [HttpGet("{id}", Name = "GetTodo")]
+        public ActionResult<TodoItem> GetById(long id)
+        {
+            //sets the item return from the Db as a var
+            var item = _context.TodoItems.Find(id);
+            //if that item doesn't exist, a 404 will be called
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return item;
+        }
+
+        /// <summary>
+        /// Value of the todo item is grabbed from the http request
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>returns a status code</returns>
+        [HttpPost]
+        public IActionResult Create(TodoItem item)
+        {
+            _context.TodoItems.Add(item);
+            _context.SaveChanges();
+            //returns a 201 for a successful post
+            //adds a location header to the response, which specifies the URI
+            //of the newly created to-do item
+            //the "GetTodo" named route is used to create the URL
+            //"GetTodo" is defined in GetById method
+            return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
+        }
+
+        /// <summary>
+        /// Updates the name of the item and if it's complete
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns>status code 204 for "no content"</returns>
+        [HttpPut("{id}")]
+        public IActionResult Update(long id, TodoItem item)
+        {   //gets the item, by its id, in order to update the info
+            var todo = _context.TodoItems.Find(id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            todo.IsComplete = item.IsComplete;
+            todo.Name = item.Name;
+
+            _context.TodoItems.Update(todo);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Deletes the specified item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>status code 204 for "no content"</returns>
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            var todo = _context.TodoItems.Find(id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            //if the id is found, call the remove method on it
+            _context.TodoItems.Remove(todo);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }
