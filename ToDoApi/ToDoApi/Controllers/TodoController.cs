@@ -46,7 +46,7 @@ namespace ToDoApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>the requested item</returns>
-        [HttpGet("{id}:long", Name = "GetTodo")]
+        [HttpGet("{id}", Name = "GetTodo")]
         public ActionResult<TodoItem> GetById(long id)
         {
             //sets the item return from the Db as a var
