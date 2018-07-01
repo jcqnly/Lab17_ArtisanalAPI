@@ -27,7 +27,7 @@ namespace ToDoApi.Migrations
 
                     b.Property<bool>("IsComplete");
 
-                    b.Property<long>("ListId");
+                    b.Property<int>("ListId");
 
                     b.Property<string>("Name");
 
@@ -50,13 +50,13 @@ namespace ToDoApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoList");
+                    b.ToTable("TodoLists");
                 });
 
             modelBuilder.Entity("ToDoApi.Model.TodoItem", b =>
                 {
                     b.HasOne("ToDoApi.Model.TodoList")
-                        .WithMany("ItemList")
+                        .WithMany("TodoItems")
                         .HasForeignKey("TodoListId");
                 });
 #pragma warning restore 612, 618
