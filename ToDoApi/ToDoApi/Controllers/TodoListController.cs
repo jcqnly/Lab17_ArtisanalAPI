@@ -35,9 +35,9 @@ namespace ToDoApi.Controllers
         /// </summary>
         /// <returns>JSON list of the lists</returns>
         [HttpGet]
-        public ActionResult<List<TodoList>> GetAll()
+        public IEnumerable<TodoList> GetAll()
         {
-            return _context.TodoList.ToList();
+            return _context.TodoList;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace ToDoApi.Controllers
         /// <param name="list"></param>
         /// <returns>returns a status code</returns>
         [HttpPost]
-        public IActionResult Create(TodoList list)
+        public IActionResult Create([FromBody]TodoList list)
         {
             _context.TodoList.Add(list);
             _context.SaveChanges();
@@ -78,7 +78,7 @@ namespace ToDoApi.Controllers
             //of the newly created to-do item
             //the "GetTodo" named route is used to create the URL
             //"GetTodo" is defined in GetById method
-            return CreatedAtRoute("GetTodo", new { id = list.Id }, list);
+            return CreatedAtRoute("GetTodoList", new { id = list.Id }, list);
         }
 
         /// <summary>
