@@ -88,7 +88,7 @@ namespace ToDoApi.Controllers
         /// <param name="list"></param>
         /// <returns>status code 204 for "no content" or not found</returns>
         [HttpPut("{id}")]
-        public IActionResult Update(long id, TodoList list)
+        public IActionResult Update(long id, [FromBody] TodoList list)
         {
             //gets the item, by its id, in order to update the info
             var todoList = _context.TodoList.Find(id);
@@ -98,11 +98,10 @@ namespace ToDoApi.Controllers
             }
 
             todoList.Name = list.Name;
-            todoList.ItemList = list.ItemList;
 
             _context.TodoList.Update(todoList);
             _context.SaveChanges();
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
