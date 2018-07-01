@@ -36,9 +36,9 @@ namespace ToDoApi.Controllers
         /// </summary>
         /// <returns>JSON list of the items</returns>
         [HttpGet]
-        public ActionResult<List<TodoItem>> GetAll()
+        public IEnumerable<TodoItem> GetAll()
         {
-            return _context.TodoItems.ToList();
+            return _context.TodoItems;
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace ToDoApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>the requested item</returns>
-        [HttpGet("{id}", Name = "GetTodo")]
-        public ActionResult<TodoItem> GetById(long id)
+        [HttpGet("{id}:long", Name = "GetTodo")]
+        public ActionResult<TodoItem> GetById([FromRoute]long id)
         {
             //sets the item return from the Db as a var
             var item = _context.TodoItems.Find(id);
