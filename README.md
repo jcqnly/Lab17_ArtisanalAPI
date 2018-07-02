@@ -13,6 +13,8 @@ individual tasks that can be saved into a SQL database and
 be extracted as needed.  This API allows the user to view all
 tasks, or all todo lists, in a JSON format with a GET request.
 
+The deployed API can be found [here](http://artisanalapi.azurewebsites.net/api/).
+
 ---
 ## Dependencies
 This application runs on .NET Core 2.1, which can be downloaded [here](https://www.microsoft.com/net/download/macos).
@@ -40,7 +42,10 @@ Update-Database
 ```
 
 [Postman](https://www.getpostman.com/) was used to test the 
-API end points.
+API end points.  Postman was also used to populate the deployed database.
+The deployed site of todo lists can be found [here](http://artisanalapi.azurewebsites.net/api/todolist).
+The deployed site of todo items can be found [here](http://artisanalapi.azurewebsites.net/api/todo).
+
 
 ---
 ## API Endpoint Routes and Explanation
