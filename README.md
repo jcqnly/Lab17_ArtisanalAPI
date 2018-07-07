@@ -58,9 +58,7 @@ to the following endpoints:
 
 Click "Try It Out" and then "Execute" in order to see all the lists:
 
-![Get All Lists](/assets/getAllLists.png)
-
-![See All Lists](/assets/getAllListsDetails.png)
+![See All Lists](/assets/getAllListDetails.png)
 
 
 #### GET a List by ID:
