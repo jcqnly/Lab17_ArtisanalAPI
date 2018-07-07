@@ -25,7 +25,7 @@ namespace ToDoApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<TodoContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
             //define docs to be added by Swagger and connect to the Swashbuckle.AspNetCore nuget package
             services.AddSwaggerGen(c =>
