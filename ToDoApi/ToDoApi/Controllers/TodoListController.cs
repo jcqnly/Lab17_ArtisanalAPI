@@ -124,13 +124,13 @@ namespace ToDoApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            //finds the list of todo items that matches the requested list id
-            var todoItem = _context.TodoItems.Where(x => x.ListId == id).ToList();
-            //remove all the items in that list
-            foreach (var item in todoItem)
-            {
-                _context.TodoItems.Remove(item);
-            }
+            ////finds the list of todo items that matches the requested list id
+            //var todoItem = _context.TodoItems.Where(x => x.ListId == id).ToList();
+            ////remove all the items in that list
+            //foreach (var item in todoItem)
+            //{
+            //    _context.TodoItems.Remove(item);
+            //}
 
             var todoList = _context.TodoLists.Find(id);
             if (todoList == null)
