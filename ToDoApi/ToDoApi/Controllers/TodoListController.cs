@@ -11,7 +11,7 @@ namespace ToDoApi.Controllers
     /// <summary>
     /// sets the api route to api/todolist
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/todolist")]
     public class TodoListController : ControllerBase
     {
         private readonly TodoContext _context;

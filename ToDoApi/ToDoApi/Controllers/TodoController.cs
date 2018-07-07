@@ -11,8 +11,7 @@ namespace ToDoApi.Controllers
     /// <summary>
     /// sets the api route to api/todo
     /// </summary>
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/todo")]
     public class TodoController : ControllerBase
     {
         private readonly TodoContext _context;
