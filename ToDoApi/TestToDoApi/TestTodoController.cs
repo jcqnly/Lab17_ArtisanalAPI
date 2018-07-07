@@ -3,7 +3,7 @@ using Xunit;
 
 namespace TestToDoApi
 {
-    public class UnitTest1
+    public class TestTodoController
     {
         [Fact]
         public void Test1()
