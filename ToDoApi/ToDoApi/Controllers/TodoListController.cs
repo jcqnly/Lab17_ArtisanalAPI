@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApi.Model;
 
@@ -11,7 +9,8 @@ namespace ToDoApi.Controllers
     /// <summary>
     /// sets the api route to api/todolist
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/todolist")]
+    [ApiController]
     public class TodoListController : ControllerBase
     {
         private readonly TodoContext _context;
