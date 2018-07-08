@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApi.Model;
 
@@ -21,12 +22,6 @@ namespace ToDoApi.Controllers
         public TodoController(TodoContext context)
         {
             _context = context;
-
-            if (_context.TodoItems.Count() == 0)
-            {
-                _context.TodoItems.Add(new TodoItem { Name = "Item1" });
-                _context.SaveChanges();
-            }
         }
 
         /// <summary>
@@ -45,10 +40,10 @@ namespace ToDoApi.Controllers
         /// <param name="id"></param>
         /// <returns>the requested item</returns>
         [HttpGet("{id}", Name = "GetTodo")]
-        public ActionResult<TodoItem> GetById(long id)
+        public async Task<ActionResult<TodoItem>> GetById(int id)
         {
             //sets the item return from the Db as a var
-            var item = _context.TodoItems.Find(id);
+            var item = await _context.TodoItems.FindAsync(id);
             //if that item doesn't exist, a 404 will be called
             if (item == null)
             {
@@ -63,10 +58,10 @@ namespace ToDoApi.Controllers
         /// <param name="item"></param>
         /// <returns>returns a status code</returns>
         [HttpPost]
-        public IActionResult Create(TodoItem item)
+        public async Task<IActionResult> Create([FromBody]TodoItem item)
         {
-            _context.TodoItems.Add(item);
-            _context.SaveChanges();
+            await _context.TodoItems.AddAsync(item);
+            await _context.SaveChangesAsync();
             //returns a 201 for a successful post
             //adds a location header to the response, which specifies the URI
             //of the newly created to-do item
@@ -82,9 +77,9 @@ namespace ToDoApi.Controllers
         /// <param name="item"></param>
         /// <returns>status code 204 for "no content"</returns>
         [HttpPut("{id}")]
-        public IActionResult Update(long id, TodoItem item)
+        public async Task<IActionResult> Update(int id, TodoItem item)
         {   //gets the item, by its id, in order to update the info
-            var todo = _context.TodoItems.Find(id);
+            var todo = await _context.TodoItems.FindAsync(id);
             if (todo == null)
             {
                 return NotFound();
@@ -95,7 +90,7 @@ namespace ToDoApi.Controllers
             todo.ListId = item.ListId;
 
             _context.TodoItems.Update(todo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
@@ -105,16 +100,16 @@ namespace ToDoApi.Controllers
         /// <param name="id"></param>
         /// <returns>status code 204 for "no content"</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var todo = _context.TodoItems.Find(id);
+            var todo = await _context.TodoItems.FindAsync(id);
             if (todo == null)
             {
                 return NotFound();
             }
             //if the id is found, call the remove method on it
             _context.TodoItems.Remove(todo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
         }
     }
