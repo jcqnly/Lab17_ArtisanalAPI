@@ -105,14 +105,16 @@ new list is there:
 
 where id is the id of a list
 
-Click "Try It Out":
-
-![Update A Brand](/assets/updateBrand.png)
-
 Let's update the we created earlier.  Becoming a dancing queen is work, let's aim 
-to be an amateur dancer instead, so type in "amateur dancer".
-We can tell which ID it is from the POST request made in the previous
-section, so type in the ID:
+to be an amateur dancer instead, type the following in:
+
+```
+{
+  "id": 3,
+  "name": "amateur dancer",
+  "todoItems": null
+}
+```
 
 ![Update a list](/assets/updateList.png)
 
