@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ToDoApi.Migrations
 {
-    public partial class AddDatabases : Migration
+    public partial class addDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace ToDoApi.Migrations
                 name: "TodoLists",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -24,12 +24,12 @@ namespace ToDoApi.Migrations
                 name: "TodoItems",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     IsComplete = table.Column<bool>(nullable: false),
                     ListId = table.Column<int>(nullable: false),
-                    TodoListId = table.Column<long>(nullable: true)
+                    TodoListId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

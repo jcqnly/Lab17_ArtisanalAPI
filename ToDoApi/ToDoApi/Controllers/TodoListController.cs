@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApi.Model;
 
@@ -39,7 +40,7 @@ namespace ToDoApi.Controllers
         /// <param name="id"></param>
         /// <returns>the requested list</returns>
         [HttpGet("{id}", Name = "GetTodoList")]
-        public ActionResult<TodoList> GetById([FromRoute]long id)
+        public async Task<ActionResult<TodoList>> GetById(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +48,7 @@ namespace ToDoApi.Controllers
             }
 
             //sets the list return from the Db as a var
-            TodoList list = _context.TodoLists.Find(id);
+            TodoList list = await _context.TodoLists.FindAsync(id);
             //finds the list of todo items that matches the requested list id
             var todoItem = _context.TodoItems.Where(x => x.ListId == id).ToList();
             list.TodoItems = todoItem;
@@ -56,7 +57,7 @@ namespace ToDoApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(list);
+            return list;
         }
 
         /// <summary>
@@ -65,15 +66,15 @@ namespace ToDoApi.Controllers
         /// <param name="list"></param>
         /// <returns>returns a status code</returns>
         [HttpPost]
-        public IActionResult Create([FromBody]TodoList list)
+        public async Task<IActionResult> Create([FromBody]TodoList list)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TodoLists.Add(list);
-            _context.SaveChanges();
+            await _context.TodoLists.AddAsync(list);
+            await _context.SaveChangesAsync();
             //returns a 201 for a successful post
             //adds a location header to the response, which specifies the URI
             //of the newly created to-do item
@@ -89,7 +90,7 @@ namespace ToDoApi.Controllers
         /// <param name="list"></param>
         /// <returns>status code 204 for "no content" or not found</returns>
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] TodoList list)
+        public async Task<IActionResult> Update(int id, [FromBody] TodoList list)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +108,7 @@ namespace ToDoApi.Controllers
             todoList.TodoItems = list.TodoItems;  
 
             _context.TodoLists.Update(todoList);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
@@ -117,7 +118,7 @@ namespace ToDoApi.Controllers
         /// <param name="id"></param>
         /// <returns>status code 204 for "no content"</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -139,7 +140,7 @@ namespace ToDoApi.Controllers
                 _context.TodoItems.Remove(item);
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

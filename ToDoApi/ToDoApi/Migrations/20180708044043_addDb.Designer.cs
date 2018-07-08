@@ -10,8 +10,8 @@ using ToDoApi.Model;
 namespace ToDoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20180701075242_AddDatabases")]
-    partial class AddDatabases
+    [Migration("20180708044043_addDb")]
+    partial class addDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace ToDoApi.Migrations
 
             modelBuilder.Entity("ToDoApi.Model.TodoItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -33,7 +33,7 @@ namespace ToDoApi.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long?>("TodoListId");
+                    b.Property<int?>("TodoListId");
 
                     b.HasKey("Id");
 
@@ -44,7 +44,7 @@ namespace ToDoApi.Migrations
 
             modelBuilder.Entity("ToDoApi.Model.TodoList", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 

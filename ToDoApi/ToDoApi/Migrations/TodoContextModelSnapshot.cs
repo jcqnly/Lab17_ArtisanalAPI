@@ -21,7 +21,7 @@ namespace ToDoApi.Migrations
 
             modelBuilder.Entity("ToDoApi.Model.TodoItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -31,7 +31,7 @@ namespace ToDoApi.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long?>("TodoListId");
+                    b.Property<int?>("TodoListId");
 
                     b.HasKey("Id");
 
@@ -42,7 +42,7 @@ namespace ToDoApi.Migrations
 
             modelBuilder.Entity("ToDoApi.Model.TodoList", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
