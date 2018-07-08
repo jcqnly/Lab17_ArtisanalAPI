@@ -116,7 +116,7 @@ to be an amateur dancer instead, type the following in:
 }
 ```
 
-![Update a list](/assets/updateList.png)
+![Update a list](/assets/updateList2.png)
 
 Go back to the "GET a list by ID" direction to check the changes:
 
