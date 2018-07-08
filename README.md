@@ -89,6 +89,13 @@ Swagger will display "Id", but we don't need it because the database
 will assign it an ID number.  Delete the Id portion.  Type in 
 "Dancing Queen" because most of us want to be dancing queens, yes???
 
+```
+{
+  "name": "Dancing Queen",
+  "todoItems": null
+}
+```
+
 ![Post a new list](/assets/postList.png)
 
 Navigate back to the directions to get all lists and we can see the
