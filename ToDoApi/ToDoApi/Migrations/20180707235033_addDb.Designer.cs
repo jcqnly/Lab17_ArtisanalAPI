@@ -10,8 +10,8 @@ using ToDoApi.Model;
 namespace ToDoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20180707234715_addThingsBackToDb")]
-    partial class addThingsBackToDb
+    [Migration("20180707235033_addDb")]
+    partial class addDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
