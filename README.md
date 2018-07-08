@@ -96,7 +96,7 @@ will assign it an ID number.  Delete the Id portion.  Type in
 }
 ```
 
-![Post a new list](/assets/postList.png)
+![Post a new list](/assets/postList2.png)
 
 Navigate back to the directions to get all lists and we can see the
 new list is there:
